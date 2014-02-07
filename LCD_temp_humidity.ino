@@ -1,3 +1,10 @@
+// Temperature and humidity meter with LCD and DHT22
+
+// Programa uses ADafruit DHT library https://github.com/adafruit/DHT-sensor-library
+// and LCD Library https://github.com/adafruit/Adafruit-ST7735-Library https://github.com/adafruit/Adafruit-GFX-Library
+
+// LCD connection 
+
 #define cs   10
 #define dc   9
 #define rst  8  
@@ -8,7 +15,7 @@
 #include <stdio.h>
 #include "DHT.h"
 
-#define DHTPIN 7     
+#define DHTPIN 7    // DHT22 data pin is connected to Arduino 7 pin. 
 #define DHTTYPE DHT22 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -38,14 +45,17 @@ void loop() {
   humidity = dht.readHumidity();
   temperature = dht.readTemperature();
 
-
+  //humidex is caldulated
+  
   humidex = calculate_humidex (temperature, humidity);
 
+  // data is outputed
   temperature_to_lcd (temperature, 0);
   humidity_to_lcd (humidity, 55);
   humidex_to_lcd (humidex, 110);
 }
 
+// outputs temperature to LCD
 void temperature_to_lcd (float temperature, unsigned char text_position )
 {
   tft.setCursor(0,text_position);       
@@ -72,6 +82,7 @@ void temperature_to_lcd (float temperature, unsigned char text_position )
 }
 
 
+//outputs humidity to LCD
 
 void humidity_to_lcd (float humidity, unsigned char text_position )
 {
@@ -90,6 +101,8 @@ void humidity_to_lcd (float humidity, unsigned char text_position )
   tft.print(" %");       
 
 }
+
+//outputs Humidex to LCD
 
 void humidex_to_lcd (float humidex, unsigned char text_position )
 
@@ -125,6 +138,8 @@ void humidex_to_lcd (float humidex, unsigned char text_position )
 
 }
 
+// aligs number to constant position
+
 void fix_number_position(float number)
 
 {
@@ -156,6 +171,8 @@ void fix_number_position(float number)
   }
 }
 
+//function to calculete Humidex
+
 float calculate_humidex(float temperature,float humidity) {
   float e;
 
@@ -166,6 +183,7 @@ float calculate_humidex(float temperature,float humidity) {
 
 }
 
+// Setting text color and message based on Humidex value
 void get_humidex_color_warning_message(float humidex)
 {
   if ((humidex >= 21 )&&(humidex < 27))
