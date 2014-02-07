@@ -28,6 +28,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 Adafruit_ST7735 tft = Adafruit_ST7735(cs, dc, rst);
 
+int text_color_humidex;
 float humidity, temperature,humidex;
 String message;
 
@@ -58,6 +59,8 @@ void loop() {
 // outputs temperature to LCD
 void temperature_to_lcd (float temperature, unsigned char text_position )
 {
+   int text_color;
+ 
   tft.setCursor(0,text_position);       
   tft.setTextColor(ST7735_WHITE,ST7735_BLACK);
   tft.setTextSize(1);
@@ -66,18 +69,22 @@ void temperature_to_lcd (float temperature, unsigned char text_position )
   tft.setTextSize(3);
 
   if (temperature>0) {
-    tft.setTextColor(ST7735_RED,ST7735_BLACK);
+    text_color=ST7735_RED;
   }
 
   else {
-    tft.setTextColor(ST7735_BLUE,ST7735_BLACK);
+    text_color=ST7735_BLUE;
   }
 
 
   tft.setCursor(0,text_position+20);
   fix_number_position(temperature);
+  tft.setTextColor(text_color,ST7735_BLACK);
   tft.print(temperature,1);
-  tft.print(" C"); 
+    
+  tft.setCursor(108,text_position+20);
+  tft.print("C"); 
+  tft.drawChar(90,text_position+20, 247, text_color, ST7735_BLACK, 2); //degree symbol
 
 }
 
@@ -121,10 +128,13 @@ void humidex_to_lcd (float humidex, unsigned char text_position )
     
     fix_number_position(humidex);
     get_humidex_color_warning_message(humidex);
-
+    tft.setTextColor(text_color_humidex,ST7735_BLACK);
     tft.print(humidex,1);
-    tft.print(" C"); 
-
+    
+    
+  tft.setCursor(108,text_position+17);
+  tft.print("C"); 
+  tft.drawChar(90,text_position+17, 247, text_color_humidex, ST7735_BLACK, 2); //degree symbol
 
     tft.setTextSize(1); 
     tft.println(message);
@@ -132,7 +142,11 @@ void humidex_to_lcd (float humidex, unsigned char text_position )
 
 
   else {
-    tft.print(" --.- C"); 
+  tft.print(" --.-"); 
+  tft.setCursor(108,text_position+17);
+  tft.print("C"); 
+  tft.drawChar(90,text_position+17, 247, ST7735_WHITE, ST7735_BLACK, 2); //degree symbol
+    
     tft.println("                             "); 
   };
 
@@ -188,38 +202,38 @@ void get_humidex_color_warning_message(float humidex)
 {
   if ((humidex >= 21 )&&(humidex < 27))
   {
-    tft.setTextColor(tft.Color565(0, 137, 0),ST7735_BLACK);
+    text_color_humidex=tft.Color565(0, 137, 0);
     message= "No discomfort";
   } // dark green
 
   if ((humidex >= 27 )&&(humidex < 35))
   {
-    tft.setTextColor(tft.Color565(76, 255, 0),ST7735_BLACK); // light green
+    text_color_humidex=tft.Color565(76, 255, 0); // light green
     message= "Some discomfort      ";
   }
 
   if ((humidex >= 35 )&&(humidex < 40))
   {
-    tft.setTextColor(tft.Color565(255, 255, 0),ST7735_BLACK);
+    text_color_humidex=tft.Color565(255, 255, 0);
     message= "Great discomfort     ";
   } // yellow
 
 
   if ((humidex >= 40 )&&(humidex < 46))
   {
-    tft.setTextColor(tft.Color565(255, 140, 0),ST7735_BLACK);
+    text_color_humidex=tft.Color565(255, 140, 0);
     message= "Health risk         ";
   } //light orange
 
   if ((humidex >= 46 )&&(humidex < 54))
   {
-    tft.setTextColor(tft.Color565(221, 128, 0),ST7735_BLACK);
+   text_color_humidex=(221, 128, 0);
     message= "Great health risk    ";
   } //dark orange
 
   if ((humidex >= 54 ))
   {
-    tft.setTextColor(tft.Color565(255, 0, 0),ST7735_BLACK);
+    text_color_humidex=tft.Color565(255, 0, 0);
     message= "Heat stroke immninent ";
   } // red
 }
