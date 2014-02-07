@@ -30,8 +30,8 @@ Adafruit_ST7735 tft = Adafruit_ST7735(cs, dc, rst);
 
 
 //Black theme
-#define COLOR1 ST7735_BLACK
-#define COLOR2 ST7735_WHITE
+#define COLOR1 ST7735_WHITE
+#define COLOR2 ST7735_BLACK
 
 //White theme
 //#define COLOR1 ST7735_BLACK
