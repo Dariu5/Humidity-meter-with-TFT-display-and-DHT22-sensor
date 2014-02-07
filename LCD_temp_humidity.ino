@@ -203,7 +203,7 @@ void get_humidex_color_warning_message(float humidex)
   if ((humidex >= 21 )&&(humidex < 27))
   {
     text_color_humidex=tft.Color565(0, 137, 0);
-    message= "No discomfort";
+    message= "No discomfort        ";
   } // dark green
 
   if ((humidex >= 27 )&&(humidex < 35))
@@ -222,13 +222,13 @@ void get_humidex_color_warning_message(float humidex)
   if ((humidex >= 40 )&&(humidex < 46))
   {
     text_color_humidex=tft.Color565(255, 140, 0);
-    message= "Health risk         ";
+    message= "Health risk          ";
   } //light orange
 
   if ((humidex >= 46 )&&(humidex < 54))
   {
    text_color_humidex=(221, 128, 0);
-    message= "Great health risk    ";
+    message= "Great health risk     ";
   } //dark orange
 
   if ((humidex >= 54 ))
