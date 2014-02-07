@@ -28,6 +28,18 @@ DHT dht(DHTPIN, DHTTYPE);
 
 Adafruit_ST7735 tft = Adafruit_ST7735(cs, dc, rst);
 
+
+//Black theme
+#define COLOR1 ST7735_BLACK
+#define COLOR2 ST7735_WHITE
+
+
+//White theme
+//#define COLOR1 ST7735_BLACK
+//#define COLOR2 ST7735_WHITE
+
+
+
 int text_color_humidex;
 float humidity, temperature,humidex;
 String message;
@@ -36,7 +48,7 @@ void setup(void) {
 
   dht.begin(); 
   tft.initR(INITR_BLACKTAB);   // initialize a ST7735S chip, black tab
-  tft.fillScreen(ST7735_BLACK);  
+  tft.fillScreen(COLOR2);  
 }
 
 void loop() {
@@ -53,9 +65,9 @@ void loop() {
  
   
   // Table 
-  tft.drawRect(0, 0, 128, 160, ST7735_WHITE);
-  tft.drawLine(0, 50, 128, 50, ST7735_WHITE);
-  tft.drawLine(0, 100, 128, 100, ST7735_WHITE);
+  tft.drawRect(0, 0, 128, 160, COLOR1);
+  tft.drawLine(0, 50, 128, 50, COLOR1);
+  tft.drawLine(0, 100, 128, 100, COLOR1);
  
   // data is outputed
   
@@ -70,7 +82,7 @@ void temperature_to_lcd (float temperature, unsigned char text_position )
    int text_color;
  
   tft.setCursor(4,text_position);       
-  tft.setTextColor(ST7735_WHITE,ST7735_BLACK);
+  tft.setTextColor(COLOR1,COLOR2);
   tft.setTextSize(1);
   tft.print("Temperature:");
 
@@ -87,12 +99,12 @@ void temperature_to_lcd (float temperature, unsigned char text_position )
 
   tft.setCursor(1,text_position+20);
   fix_number_position(temperature);
-  tft.setTextColor(text_color,ST7735_BLACK);
+  tft.setTextColor(text_color,COLOR2);
   tft.print(temperature,1);
     
   tft.setCursor(108,text_position+20);
   tft.print("C"); 
-  tft.drawChar(90,text_position+20, 247, text_color, ST7735_BLACK, 2); //degree symbol
+  tft.drawChar(90,text_position+20, 247, text_color, COLOR2, 2); //degree symbol
 
 }
 
@@ -103,7 +115,7 @@ void humidity_to_lcd (float humidity, unsigned char text_position )
 {
 
 
-  tft.setTextColor(ST7735_WHITE,ST7735_BLACK);
+  tft.setTextColor(COLOR1,COLOR2);
   tft.setCursor(4,text_position); 
   tft.setTextSize(1); 
   tft.println("Humidity:");
@@ -136,13 +148,13 @@ void humidex_to_lcd (float humidex, unsigned char text_position )
     
     fix_number_position(humidex);
     get_humidex_color_warning_message(humidex);
-    tft.setTextColor(text_color_humidex,ST7735_BLACK);
+    tft.setTextColor(text_color_humidex,COLOR2);
     tft.print(humidex,1);
     
     
   tft.setCursor(108,text_position+17);
   tft.print("C"); 
-  tft.drawChar(90,text_position+17, 247, text_color_humidex, ST7735_BLACK, 2); //degree symbol
+  tft.drawChar(90,text_position+17, 247, text_color_humidex, COLOR2, 2); //degree symbol
     
     tft.setCursor(3,text_position+43);
     tft.setTextSize(1);
@@ -154,7 +166,7 @@ void humidex_to_lcd (float humidex, unsigned char text_position )
   tft.print(" --.-"); 
   tft.setCursor(108,text_position+17);
   tft.print("C"); 
-    tft.drawChar(90,text_position+17, 247, ST7735_WHITE, ST7735_BLACK, 2); //degree symbol
+    tft.drawChar(90,text_position+17, 247, COLOR1, COLOR2, 2); //degree symbol
      tft.setCursor(1,text_position+43);
      tft.setTextSize(1);
     tft.println("                   "); 
