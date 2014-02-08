@@ -42,6 +42,7 @@ float humidity, temperature,humidex;
 String message;
 
 void setup(void) {
+  
 
   dht.begin(); 
   tft.initR(INITR_BLACKTAB);   // initialize a ST7735S chip, black tab
@@ -51,9 +52,9 @@ void setup(void) {
 void loop() {
 
   // get data from DHT22 
-
-  humidity = dht.readHumidity();
-  temperature = dht.readTemperature();
+  
+ humidity = dht.readHumidity();
+ temperature = dht.readTemperature();
 
   //humidex is calculated
 
@@ -70,6 +71,7 @@ void loop() {
   temperature_to_lcd (temperature, 4);
   humidity_to_lcd (humidity, 55);
   humidex_to_lcd (humidex, 105);
+    
 }
 
 // outputs temperature to LCD
@@ -228,25 +230,25 @@ void get_humidex_color_warning_message(float humidex)
   if ((humidex >= 35 )&&(humidex < 40))
   {
     text_color_humidex=tft.Color565(255, 255, 0);
-    message= "Great discomfort     ";
+    message= "Great discomfort    ";
   } // yellow
 
 
   if ((humidex >= 40 )&&(humidex < 46))
   {
     text_color_humidex=tft.Color565(255, 140, 0);
-    message= "Health risk          ";
+    message= "Health risk         ";
   } //light orange
 
   if ((humidex >= 46 )&&(humidex < 54))
   {
-    text_color_humidex=(221, 128, 0);
-    message= "Great health risk     ";
+    text_color_humidex=tft.Color565(221, 128, 0);
+    message= "Great health risk   ";
   } //dark orange
 
   if ((humidex >= 54 ))
   {
     text_color_humidex=tft.Color565(255, 0, 0);
-    message= "Heat stroke immninent ";
+    message= "Heat stroke danger  ";
   } // red
 }
